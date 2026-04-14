@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npx shadcn@latest init -d)",
+      "Bash(npx shadcn@latest add button card badge input label select textarea slider progress toast sonner separator tabs accordion)",
+      "Bash(npx shadcn@latest add button card badge input label select textarea slider progress toast sonner separator tabs accordion --yes)",
+      "Bash(npm ls:*)",
+      "Bash(node -e \"require\\('tslib'\\)\")",
+      "Bash(npm pack:*)",
+      "Bash(npx shadcn@latest add button card badge input label select textarea slider progress sonner separator tabs accordion --yes)",
+      "Bash(npx tsc:*)",
+      "Bash(uv --version)",
+      "Bash(brew install:*)",
+      "Bash(uv init:*)",
+      "Bash(uv add:*)",
+      "Bash(uv run:*)",
+      "Bash(uv sync:*)",
+      "Bash(git init:*)",
+      "Bash(git remote:*)",
+      "Bash(git add:*)",
+      "Bash(rm -rf /Users/phanivsandeep/Desktop/Projects/Rental-Eval/frontend/.git)",
+      "Bash(git rm:*)"
+    ]
+  }
+}
