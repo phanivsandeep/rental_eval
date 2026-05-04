@@ -20,7 +20,19 @@
       "Bash(git remote:*)",
       "Bash(git add:*)",
       "Bash(rm -rf /Users/phanivsandeep/Desktop/Projects/Rental-Eval/frontend/.git)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(git check-ignore:*)",
+      "Bash(git commit -m ':*)",
+      "Bash(git branch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git commit:*)",
+      "WebFetch(domain:docs.langchain.com)",
+      "Bash(npx shadcn@latest add dialog --yes)",
+      "Bash(npx shadcn@latest add dialog)",
+      "Bash(npm run:*)",
+      "Bash(node -e \"const d = require\\('/Users/phanivsandeep/Desktop/Projects/Rental-Eval/frontend/node_modules/@base-ui/react/dialog'\\); console.log\\(Object.keys\\(d\\)\\)\")",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)"
     ]
   }
 }

@@ -80,8 +80,8 @@ export function AgentProgress({ agents, address }: AgentProgressProps) {
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-sm font-medium truncate">{DIMENSION_LABELS[dim]}</span>
                       <div className="flex items-center gap-1.5 flex-shrink-0">
-                        {state.status === 'complete' && state.score != null && (
-                          <ScoreBadge score={state.score} size="sm" />
+                        {state.status === 'complete' && state.match_score != null && (
+                          <ScoreBadge score={state.match_score} size="sm" />
                         )}
                         <StatusIcon status={state.status} />
                       </div>

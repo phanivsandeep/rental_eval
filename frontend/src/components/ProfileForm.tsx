@@ -345,7 +345,7 @@ export function ProfileForm({ initial, onSaved, guestMode }: ProfileFormProps) {
             max={6000}
             step={100}
             value={[form.budget ?? 2000]}
-            onValueChange={([v]) => setForm((f) => ({ ...f, budget: v }))}
+            onValueChange={(vals) => setForm((f) => ({ ...f, budget: (vals as number[])[0] }))}
           />
           <div className="flex justify-between text-xs text-muted-foreground mt-1">
             <span>$500</span><span>$6,000</span>

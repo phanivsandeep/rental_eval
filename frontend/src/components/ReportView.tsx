@@ -1,8 +1,7 @@
 import { useState } from 'react'
-import { Share2, CheckCircle2, AlertTriangle, XOctagon, MapPin } from 'lucide-react'
+import { Share2, CheckCircle2, AlertTriangle, XOctagon, MapPin, Info } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { ScoreBadge } from '@/components/ScoreBadge'
 import { DimensionCard } from '@/components/DimensionCard'
@@ -43,7 +42,7 @@ export function ReportView({ report, address, evaluationId }: ReportViewProps) {
             <span>{address}</span>
           </div>
           <div className="flex items-center gap-3">
-            <h2 className="text-2xl font-bold">Overall Score</h2>
+            <h2 className="text-2xl font-bold">Match Score</h2>
             <ScoreBadge score={report.overall_score} size="lg" />
           </div>
         </div>
@@ -61,6 +60,23 @@ export function ReportView({ report, address, evaluationId }: ReportViewProps) {
           </p>
         </CardContent>
       </Card>
+
+      {/* Consistency notes (from LangGraph consistency_check node) */}
+      {report.consistency_notes?.length > 0 && (
+        <Card className="border-amber-200 bg-amber-50/50 dark:border-amber-900 dark:bg-amber-950/20">
+          <CardContent className="pt-4 pb-4">
+            <div className="flex items-start gap-2">
+              <Info className="h-4 w-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <p className="text-xs font-medium text-amber-700 dark:text-amber-400">Things to note</p>
+                {report.consistency_notes.map((note, i) => (
+                  <p key={i} className="text-sm text-amber-800 dark:text-amber-300">{note}</p>
+                ))}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Pros / Cons / Red Flags */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

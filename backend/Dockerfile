@@ -13,7 +13,7 @@ RUN uv sync --frozen --no-dev --no-install-project
 
 # Copy source
 COPY app/ ./app/
-COPY main.py ./
+COPY main.py mcp_server.py ./
 
 # Install project
 RUN uv sync --frozen --no-dev

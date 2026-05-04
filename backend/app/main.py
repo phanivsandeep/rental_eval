@@ -11,6 +11,7 @@ from slowapi.errors import RateLimitExceeded
 from app.config import get_settings
 from app.middleware.ratelimit import limiter
 from app.routers import session, key, profile, evaluate, reports
+from mcp_server import mcp
 
 logging.basicConfig(level=logging.INFO)
 
@@ -24,7 +25,9 @@ if cfg.langsmith_api_key:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    yield  # startup / shutdown hooks go here if needed
+    cfg.validate_startup()
+    cfg.warn_missing()
+    yield
 
 
 app = FastAPI(
@@ -37,10 +40,10 @@ app = FastAPI(
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-# CORS
+# CORS — allow the web frontend and Claude.ai (for MCP connections)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[cfg.frontend_url],
+    allow_origins=[cfg.frontend_url, "https://claude.ai"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -52,6 +55,9 @@ app.include_router(key.router)
 app.include_router(profile.router)
 app.include_router(evaluate.router)
 app.include_router(reports.router)
+
+# MCP server — mounted at /mcp for Claude.ai and Claude Code access
+app.mount("/mcp", mcp.streamable_http_app())
 
 
 @app.get("/health")

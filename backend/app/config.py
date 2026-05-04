@@ -1,4 +1,5 @@
 import logging
+import sys
 from functools import lru_cache
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -9,6 +10,12 @@ REQUIRED_FOR_EVAL = [
     "google_maps_api_key",
     "openweather_api_key",
     "walkscore_api_key",
+]
+
+REQUIRED_FOR_STARTUP = [
+    "cookie_secret",
+    "supabase_url",
+    "supabase_service_key",
 ]
 
 
@@ -46,18 +53,25 @@ class Settings(BaseSettings):
     def is_production(self) -> bool:
         return self.environment == "production"
 
+    def validate_startup(self) -> None:
+        """Hard-fail on missing critical env vars. Call once at startup."""
+        missing = [k for k in REQUIRED_FOR_STARTUP if not getattr(self, k)]
+        if missing:
+            for k in missing:
+                logger.critical("MISSING required env var: %s", k.upper())
+            sys.exit(
+                f"Aborting startup — set these env vars first: "
+                f"{', '.join(k.upper() for k in missing)}"
+            )
+
     def warn_missing(self) -> None:
-        """Log warnings for missing keys at startup — never raises."""
+        """Log warnings for optional API keys that degrade features when absent."""
         for key in REQUIRED_FOR_EVAL:
             if not getattr(self, key):
                 logger.warning(
                     "Missing env var: %s — related agent tools will return 'unavailable'.",
                     key.upper(),
                 )
-        if not self.cookie_secret:
-            logger.warning("COOKIE_SECRET not set — API key encryption will fail at runtime.")
-        if not self.supabase_url or not self.supabase_service_key:
-            logger.warning("Supabase credentials missing — DB operations will fail.")
 
 
 @lru_cache

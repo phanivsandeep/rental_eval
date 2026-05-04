@@ -37,7 +37,7 @@ interface DimensionCardProps {
 
 export function DimensionCard({ dimension, result }: DimensionCardProps) {
   return (
-    <Accordion type="single" collapsible>
+    <Accordion>
       <AccordionItem value={dimension} className="border rounded-xl px-4">
         <AccordionTrigger className="hover:no-underline py-4">
           <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -45,9 +45,9 @@ export function DimensionCard({ dimension, result }: DimensionCardProps) {
             <div className="flex-1 min-w-0 text-left">
               <div className="flex items-center gap-3 mb-1">
                 <span className="font-semibold text-sm">{DIMENSION_LABELS[dimension]}</span>
-                <ScoreBadge score={result.score} size="sm" />
+                <ScoreBadge score={result.match_score} size="sm" />
               </div>
-              <Progress value={result.score} className="h-1.5 w-full max-w-xs" />
+              <Progress value={result.match_score} className="h-1.5 w-full max-w-xs" />
             </div>
           </div>
         </AccordionTrigger>
