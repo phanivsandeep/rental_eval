@@ -9,10 +9,19 @@ from langgraph.prebuilt import create_react_agent
 SUBAGENT_OUTPUT_INSTRUCTIONS = """
 After completing your research, output ONLY a valid JSON object with this exact structure:
 {
-  "score": <integer 0-100>,
-  "summary": "<one sentence summary>",
+  "match_score": <integer 0-100>,
+  "summary": "<one sentence describing how well this dimension matches THIS user's needs>",
   "details": "<multi-paragraph detailed findings>"
 }
+
+match_score is NOT a general quality rating — it measures how well this specific dimension
+aligns with THIS user's stated preferences, lifestyle, and priorities:
+  80-100 : Strong match to this user's specific needs
+  60-79  : Generally good match, minor gaps
+  40-59  : Moderate mismatch with their stated preferences
+  20-39  : Significant mismatch — this dimension works against their priorities
+  0-19   : Critical mismatch — this user's core needs are not met here
+
 Do not include any text before or after the JSON object.
 """
 
@@ -53,7 +62,7 @@ async def run_agent(agent: Any, user_message: str) -> dict[str, Any]:
             pass
 
     return {
-        "score": 50,
+        "match_score": 50,
         "summary": "Data temporarily unavailable",
         "details": content or "Agent did not return structured output.",
     }

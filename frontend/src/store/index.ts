@@ -62,6 +62,7 @@ interface AppState {
   // ── History ──────────────────────────────────────────────────────────────────
   history: Omit<Evaluation, 'report'>[]
   setHistory: (h: Omit<Evaluation, 'report'>[]) => void
+  appendToHistory: (entry: Omit<Evaluation, 'report'>) => void
   removeFromHistory: (id: string) => void
 }
 
@@ -126,7 +127,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
         status: event.status === 'complete' ? 'complete'
                : event.status === 'failed' ? 'failed'
                : 'running',
-        score: event.score,
+        match_score: event.match_score,
         summary: event.summary,
       },
     },
@@ -146,6 +147,9 @@ export const useAppStore = create<AppState>()((set, get) => ({
   // History
   history: [],
   setHistory: (h) => set({ history: h }),
+  appendToHistory: (entry) => set((state) => ({
+    history: [entry, ...state.history],
+  })),
   removeFromHistory: (id) => set((state) => ({
     history: state.history.filter((e) => e.id !== id),
   })),

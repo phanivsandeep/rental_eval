@@ -47,17 +47,18 @@ export interface MonthlyCostEstimate {
 }
 
 export interface DimensionResult {
-  score: number
+  match_score: number
   summary: string
   details: string
 }
 
 export interface Report {
-  overall_score: number
+  overall_score: number       // weighted average of all match_scores (DB key kept for compat)
   persona_narrative: string
   pros: string[]
   cons: string[]
   red_flags: string[]
+  consistency_notes: string[] // from LangGraph consistency_check node
   monthly_cost_estimate: MonthlyCostEstimate
   sections: Record<EvaluationDimension, DimensionResult>
 }
@@ -69,6 +70,7 @@ export interface Evaluation {
   status: EvaluationStatus
   created_at: string
   report?: Report
+  profile_snapshot?: UserProfile  // preferences used at evaluation time
 }
 
 // ─── SSE Events ───────────────────────────────────────────────────────────────
@@ -76,13 +78,13 @@ export interface Evaluation {
 export interface AgentUpdateEvent {
   agent: EvaluationDimension
   status: 'running' | 'complete' | 'failed'
-  score?: number
+  match_score?: number
   summary?: string
 }
 
 export interface AgentState {
   status: AgentStatus
-  score?: number
+  match_score?: number
   summary?: string
 }
 

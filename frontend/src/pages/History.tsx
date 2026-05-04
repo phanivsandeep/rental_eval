@@ -2,9 +2,11 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { PastEvaluations } from '@/components/PastEvaluations'
+import { useAppStore } from '@/store'
 
 export default function HistoryPage() {
   const navigate = useNavigate()
+  const { isGuest } = useAppStore()
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
@@ -14,7 +16,11 @@ export default function HistoryPage() {
         </Button>
         <div>
           <h1 className="text-2xl font-bold">Evaluation History</h1>
-          <p className="text-sm text-muted-foreground">All your past property evaluations.</p>
+          <p className="text-sm text-muted-foreground">
+            {isGuest
+              ? 'Your evaluations this session — nothing is saved after you leave.'
+              : 'All your past property evaluations.'}
+          </p>
         </div>
       </div>
       <PastEvaluations />

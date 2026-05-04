@@ -25,6 +25,43 @@ async function apiFetch<T>(
   return res.json() as Promise<T>
 }
 
+// ─── Health / wakeup ping ─────────────────────────────────────────────────────
+
+export type BackendStatus = 'unknown' | 'booting' | 'ready' | 'unreachable'
+
+/**
+ * Polls GET /health until the backend responds OK, calling onStatusChange on each transition.
+ * Returns a cancel function.
+ */
+export function waitForBackend(
+  onStatusChange: (status: BackendStatus) => void,
+): () => void {
+  let cancelled = false
+  let attempt = 0
+
+  async function ping() {
+    while (!cancelled) {
+      try {
+        const res = await fetch(`${BASE_URL}/health`, { credentials: 'include' })
+        if (res.ok) {
+          onStatusChange('ready')
+          return
+        }
+        onStatusChange('booting')
+      } catch {
+        onStatusChange(attempt === 0 ? 'booting' : 'booting')
+      }
+      attempt++
+      // Back off: 3s, 5s, 5s, 5s...
+      await new Promise((r) => setTimeout(r, attempt === 1 ? 3000 : 5000))
+    }
+  }
+
+  onStatusChange('booting')
+  ping()
+  return () => { cancelled = true }
+}
+
 // ─── Session ──────────────────────────────────────────────────────────────────
 
 export async function createSession(): Promise<{ session_id: string }> {

@@ -8,6 +8,7 @@ import { useAppStore } from '@/store'
 import { supabase } from '@/lib/supabase'
 import { toast } from 'sonner'
 
+import { BackendStatusBanner } from '@/components/BackendStatusBanner'
 import AuthPage from '@/pages/AuthPage'
 import Home from '@/pages/Home'
 import ProfilePage from '@/pages/Profile'
@@ -44,7 +45,7 @@ function Nav() {
         <div className="flex items-center gap-1">
           <NavLink to="/evaluate" className={navClass}>Evaluate</NavLink>
 
-          {user && (
+          {(user || isGuest) && (
             <NavLink to="/history" className={navClass}>
               <History className="h-3.5 w-3.5 mr-1" />History
             </NavLink>
@@ -121,6 +122,7 @@ function AppShell() {
   // Authenticated (user or guest) → full app
   return (
     <div className="min-h-screen bg-background">
+      <BackendStatusBanner />
       <Nav />
       <main>
         <Routes>

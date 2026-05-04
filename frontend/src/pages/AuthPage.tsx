@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Separator } from '@/components/ui/separator'
-import { supabase } from '@/lib/supabase'
+import { supabase, supabaseEnabled } from '@/lib/supabase'
 import { useAppStore } from '@/store'
 import { toast } from 'sonner'
 
@@ -112,6 +112,18 @@ export default function AuthPage() {
             <h2 className="text-2xl font-bold tracking-tight">Get started</h2>
             <p className="text-sm text-muted-foreground">Sign in or create an account to save your evaluations.</p>
           </div>
+
+          {/* Supabase not configured — show a dev notice instead of broken auth */}
+          {!supabaseEnabled && (
+            <div className="rounded-lg border border-amber-200 bg-amber-50 dark:border-amber-900 dark:bg-amber-950/30 px-4 py-3 text-sm text-amber-800 dark:text-amber-300 space-y-1">
+              <p className="font-medium">Auth not configured</p>
+              <p className="text-xs opacity-80">
+                Copy <code className="font-mono">frontend/.env.example</code> → <code className="font-mono">frontend/.env</code> and
+                fill in <code className="font-mono">VITE_SUPABASE_URL</code> and <code className="font-mono">VITE_SUPABASE_ANON_KEY</code>.
+                <br />You can still use Guest mode below.
+              </p>
+            </div>
+          )}
 
           <Tabs value={tab} onValueChange={(v) => setTab(v as 'signin' | 'signup')}>
             <TabsList className="w-full">
