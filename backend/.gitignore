@@ -8,3 +8,7 @@ wheels/
 
 # Virtual environments
 .venv
+
+# uv local dev files — requirements.txt is the deployment artifact
+uv.lock
+.python-version
