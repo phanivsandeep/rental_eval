@@ -7,7 +7,7 @@ const isMisconfigured = !supabaseUrl || !supabaseAnonKey
 
 if (isMisconfigured) {
   console.warn(
-    '[RentalEval] Supabase env vars missing (VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY).\n' +
+    '[TenantFit] Supabase env vars missing (VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY).\n' +
     'Auth will be disabled until these are set. Copy frontend/.env.example → frontend/.env and fill in your values.'
   )
 }

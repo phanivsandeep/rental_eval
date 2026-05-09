@@ -57,7 +57,7 @@ export default function AuthPage() {
       <div className="hidden lg:flex lg:w-1/2 bg-primary text-primary-foreground flex-col justify-between p-12">
         <div className="flex items-center gap-3">
           <Building2 className="h-8 w-8" />
-          <span className="text-xl font-bold tracking-tight">RentalEval</span>
+          <span className="text-xl font-bold tracking-tight">TenantFit</span>
         </div>
 
         <div className="space-y-8">
@@ -104,7 +104,7 @@ export default function AuthPage() {
         {/* Mobile logo */}
         <div className="lg:hidden flex items-center gap-2 mb-8">
           <Building2 className="h-6 w-6 text-primary" />
-          <span className="text-lg font-bold">RentalEval</span>
+          <span className="text-lg font-bold">TenantFit</span>
         </div>
 
         <div className="w-full max-w-sm space-y-6">

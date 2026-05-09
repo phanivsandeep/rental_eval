@@ -35,7 +35,7 @@ function Nav() {
         {/* Logo */}
         <NavLink to="/" className="flex items-center gap-2 font-semibold text-sm">
           <Building2 className="h-5 w-5 text-primary" />
-          RentalEval
+          TenantFit
           {isGuest && (
             <Badge variant="outline" className="text-xs ml-1">Guest</Badge>
           )}

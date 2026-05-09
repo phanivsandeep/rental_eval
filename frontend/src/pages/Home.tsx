@@ -25,7 +25,7 @@ export default function Home() {
       </div>
 
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">Welcome to RentalEval</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Welcome to TenantFit</h1>
         <p className="text-muted-foreground max-w-md">
           Set up your profile so agents can personalize every evaluation for you.
         </p>
