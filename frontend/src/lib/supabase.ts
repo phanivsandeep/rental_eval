@@ -30,9 +30,21 @@ function createStubClient(): SupabaseClient {
   return stub as unknown as SupabaseClient
 }
 
+// Custom lock that avoids navigator.locks — prevents the "apps on device"
+// permission prompt Chrome shows when navigator.locks.request() is called.
+// Tradeoff: cross-tab session sync is disabled (logging in on one tab won't
+// auto-reflect in another), which is acceptable for this app.
+async function noOpLock<T>(
+  _name: string,
+  _acquireTimeout: number,
+  fn: () => Promise<T>
+): Promise<T> {
+  return fn()
+}
+
 export const supabase: SupabaseClient = isMisconfigured
   ? createStubClient()
-  : createClient(supabaseUrl, supabaseAnonKey)
+  : createClient(supabaseUrl, supabaseAnonKey, { auth: { lock: noOpLock } })
 
 /** True when Supabase is properly configured — use to conditionally show auth UI */
 export const supabaseEnabled = !isMisconfigured
